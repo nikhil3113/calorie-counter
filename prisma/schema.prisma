@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Men: BMR = 10*weight(kg) + 6.25*height(cm) - 5*age + 5
+// Women: BMR = 10*weight(kg) + 6.25*height(cm) - 5*age - 161
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  height        Float?
+  weight        Float?
+  age           Int?
+  Gender        String?
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  UserDiet      UserDiet[]
+}
+
+model Food {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  calories  Float
+  protein   Float
+  carbs     Float?
+  fat       Float?
+  fiber     Float?
+  sugar     Float?
+  sodium    Float?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  UserDiet  UserDiet[]
+}
+
+model UserDiet {
+  id         String   @id @default(cuid())
+  userId     String
+  foodId     String
+  quantity   Float
+  mealType   String
+  consumedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  food Food @relation(fields: [foodId], references: [id], onDelete: Cascade)
+
+  @@index([userId, consumedAt])
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
