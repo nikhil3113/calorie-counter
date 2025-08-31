@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "add-food": "npx ts-node script/add-foods.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "add-food": "npx ts-node script/add-foods.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
