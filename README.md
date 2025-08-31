@@ -185,9 +185,6 @@ When a food isn't found in the database:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
@@ -195,3 +192,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [NextAuth.js](https://next-auth.js.org/) for authentication
 - [Prisma](https://www.prisma.io/) for database management
 - [Tailwind CSS](https://tailwindcss.com/) for styling
+
+
+## Future Scope
+- Monthly report with charts and insights
+- Make the Home page server side rendered for better SEO and make a different page for dashboard
+- Instead of tabs for Today, Add Food, Goals - create a navbar for navigation
+
